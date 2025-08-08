@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <h1>Welcome to the Agent Page</h1>
+  <main>
+    <section class="hero">
+      <h1>Welcome to HealthAI</h1>
+      <p>Your trusted virtual healthcare assistant, available 24/7 to answer your health questions and provide general advice.</p>
+    </section>
+    <section class="features">
+      <h2>Why Use HealthAI?</h2>
+      <ul>
+        <li>✔️ Instant answers to common health questions</li>
+        <li>✔️ AI-powered, always available</li>
+        <li>✔️ Private and secure</li>
+        <li>✔️ Free to use</li>
+      </ul>
+    </section>
+    <section class="tips">
+      <h2>Health Tips</h2>
+      <div class="tips-list">
+        <div class="tip-card">💧 <strong>Stay Hydrated:</strong> Drink at least 8 glasses of water daily.</div>
+        <div class="tip-card">🥗 <strong>Eat Balanced Meals:</strong> Include fruits, vegetables, and whole grains in your diet.</div>
+        <div class="tip-card">🏃 <strong>Exercise Regularly:</strong> Aim for at least 30 minutes of activity most days.</div>
+        <div class="tip-card">😴 <strong>Get Enough Sleep:</strong> Adults need 7-9 hours of sleep per night.</div>
+        <div class="tip-card">🧘 <strong>Manage Stress:</strong> Practice relaxation techniques like deep breathing or meditation.</div>
+      </div>
+    </section>
+    <section class="faq">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item"><strong>Is HealthAI a doctor?</strong><br> No, HealthAI provides general advice only. For medical emergencies, contact a professional.</div>
+        <div class="faq-item"><strong>Is my data safe?</strong><br> Yes, your questions are not stored or shared.</div>
+        <div class="faq-item"><strong>Can I get a prescription?</strong><br> No, HealthAI cannot prescribe medication.</div>
+        <div class="faq-item"><strong>How do I use the chatbot?</strong><br> Click the chat icon at the bottom right and start typing your question!</div>
+      </div>
+    </section>
+    <section class="about">
+      <h2>About HealthAI</h2>
+      <p>HealthAI is an AI-powered virtual assistant designed to help you with general health questions and wellness tips. Our mission is to make basic healthcare information accessible to everyone, anytime, anywhere.</p>
+    </section>
+  </main>
+  <div id="chatbot-widget">
+    <div id="chatbot-container" class="closed">
+      <div class="chat-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Bot Avatar" class="bot-avatar" />
+        <div>
+          <h2>Healthcare Chatbot</h2>
+          <span class="chat-desc">AI-powered health assistant</span>
+        </div>
+        <button id="close-chat" title="Close">×</button>
+      </div>
+      <div id="chat-window"></div>
+      <div id="typing-indicator" style="display:none;"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Bot is typing...</div>
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Ask a health question..." autocomplete="off" />
+        <button type="submit">Send</button>
+      </form>
+      <div class="chat-footer">⚠️ This chatbot provides general advice only. For medical emergencies, contact a professional.</div>
+    </div>
+    <button id="open-chat" title="Chat with us">
+      <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Open Chat" style="width:36px;height:36px;" />
+    </button>
+  </div>
+  <style>
+    main {
+      max-width: 700px;
+      margin: 0 auto 80px auto;
+      padding: 32px 16px 0 16px;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .hero h1 {
+      font-size: 2.5em;
+      color: #2196f3;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.2em;
+      color: #555;
+    }
+    .features {
+      background: #e3f2fd;
+      border-radius: 12px;
+      padding: 24px 18px;
+      margin-bottom: 36px;
+    }
+    .features h2 {
+      color: #1565c0;
+    }
+    .features ul {
+      list-style: none;
+      padding: 0;
+    }
+    .features li {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+    .tips {
+      margin-bottom: 36px;
+    }
+    .tips-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .tip-card {
+      background: #f1f8e9;
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-size: 1.05em;
+      color: #388e3c;
+      flex: 1 1 220px;
+      min-width: 180px;
+      box-shadow: 0 2px 8px 0 rgba(76,175,80,0.06);
+    }
+    .faq {
+      background: #fffde7;
+      border-radius: 12px;
+      padding: 24px 18px;
+      margin-bottom: 36px;
+    }
+    .faq h2 {
+      color: #fbc02d;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .faq-item {
+      font-size: 1.05em;
+      color: #795548;
+      background: #fffde7;
+      border-radius: 8px;
+      padding: 10px 14px;
+      box-shadow: 0 1px 4px 0 rgba(251,192,45,0.06);
+    }
+    .about {
+      margin-bottom: 60px;
+    }
+    .about h2 {
+      color: #2196f3;
+    }
+    .about p {
+      color: #333;
+      font-size: 1.08em;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #e3f2fd 0%, #f9fbe7 100%);
+      overflow-x: hidden;
+    }
+    /* Animated floating bubbles background */
+    .bubble {
+      position: fixed;
+      border-radius: 50%;
+      opacity: 0.18;
+      z-index: 0;
+      animation: floatBubble 18s linear infinite;
+    }
+    .bubble.b1 { width: 120px; height: 120px; left: 10vw; bottom: 10vh; background: #90caf9; animation-delay: 0s; }
+    .bubble.b2 { width: 80px; height: 80px; left: 70vw; bottom: 20vh; background: #a5d6a7; animation-delay: 3s; }
+    .bubble.b3 { width: 60px; height: 60px; left: 40vw; bottom: 5vh; background: #fff59d; animation-delay: 6s; }
+    .bubble.b4 { width: 100px; height: 100px; left: 80vw; bottom: 60vh; background: #b39ddb; animation-delay: 9s; }
+    .bubble.b5 { width: 50px; height: 50px; left: 20vw; bottom: 70vh; background: #ffccbc; animation-delay: 12s; }
+    @keyframes floatBubble {
+      0% { transform: translateY(0) scale(1); opacity: 0.18; }
+      50% { opacity: 0.28; }
+      100% { transform: translateY(-60vh) scale(1.15); opacity: 0.10; }
+    }
+    #chatbot-widget {
+      position: fixed;
+      right: 32px;
+      bottom: 32px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      animation: chatbotWidgetIn 1.1s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes chatbotWidgetIn {
+      0% { opacity: 0; transform: translateY(80px) scale(0.7); }
+      60% { opacity: 1; transform: translateY(-10px) scale(1.05); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    #chatbot-container {
+      max-width: 420px;
+      width: 98vw;
+      max-height: 80vh;
+      min-width: 320px;
+      margin: 0;
+      padding: 0 0 18px 0;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 32px 0 rgba(33,150,243,0.18);
+      border: 1.5px solid #e3f2fd;
+      display: flex;
+      flex-direction: column;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    #chatbot-container.closed {
+      display: none;
+    }
+    #open-chat {
+      background: #2196f3;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      box-shadow: 0 4px 16px 0 rgba(33,150,243,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    #open-chat:hover {
+      background: #1565c0;
+    }
+    #close-chat {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6em;
+      margin-left: auto;
+      cursor: pointer;
+      padding: 0 8px;
+      transition: color 0.2s;
+    }
+    #close-chat:hover {
+      color: #f44336;
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 24px 10px 24px;
+      border-radius: 18px 18px 0 0;
+      background: linear-gradient(90deg, #2196f3 0%, #64b5f6 100%);
+    }
+    .bot-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 8px 0 rgba(33,150,243,0.10);
+    }
+    .chat-header h2 {
+      color: #fff;
+      margin: 0 0 2px 0;
+      font-size: 1.35em;
+    }
+    .chat-desc {
+      color: #e3f2fd;
+      font-size: 0.95em;
+    }
+    #chat-window {
+      height: 480px;
+      overflow-y: auto;
+      background: #f7fafd;
+      padding: 18px 14px 10px 14px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 8px 0 rgba(33,150,243,0.04);
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 12px;
+    }
+    #typing-indicator {
+      margin: 0 0 8px 8px;
+      color: #388e3c;
+      font-size: 0.98em;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dot {
+      height: 8px;
+      width: 8px;
+      margin: 0 2px;
+      background-color: #388e3c;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1.4s infinite both;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.2; }
+      40% { opacity: 1; }
+    }
+    #chat-form {
+      display: flex;
+      gap: 10px;
+      padding: 0 16px;
+      margin-top: 8px;
+    }
+    #user-input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1.5px solid #bdbdbd;
+      font-size: 1em;
+      transition: border 0.2s;
+      background: #f7fafd;
+    }
+    #user-input:focus {
+      border: 1.5px solid #2196f3;
+      outline: none;
+    }
+    #chat-form button {
+      padding: 0 22px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(90deg, #2196f3 0%, #64b5f6 100%);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px 0 rgba(33,150,243,0.08);
+    }
+    #chat-form button:hover {
+      background: #1565c0;
+    }
+    .chat-msg {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.4s forwards;
+      display: flex;
+      flex-direction: column;
+      min-width: 80px;
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+      background: linear-gradient(120deg, #e3f2fd 60%, #bbdefb 100%);
+      color: #1565c0;
+      border-radius: 18px 18px 6px 18px;
+      padding: 10px 16px 8px 16px;
+      max-width: 80%;
+      box-shadow: 0 2px 8px 0 rgba(33,150,243,0.10);
+    }
+    .chat-msg.bot {
+      align-self: flex-start;
+      background: linear-gradient(120deg, #f1f8e9 60%, #c8e6c9 100%);
+      color: #388e3c;
+      border-radius: 18px 18px 18px 6px;
+      padding: 10px 16px 8px 16px;
+      max-width: 80%;
+      box-shadow: 0 2px 8px 0 rgba(76,175,80,0.10);
+    }
+    .msg-time {
+      font-size: 0.78em;
+      color: #bdbdbd;
+      margin-top: 2px;
+      align-self: flex-end;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .chat-footer {
+      margin: 18px 0 0 0;
+      padding: 8px 18px 0 18px;
+      font-size: 0.93em;
+      color: #757575;
+      border-top: 1px solid #e3f2fd;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      #chatbot-widget { right: 2vw; bottom: 2vw; }
+      #chatbot-container { max-width: 98vw; min-width: 0; }
+      .chat-header { padding: 16px 8px 8px 8px; }
+      #chat-form { padding: 0 4px; }
+      .chat-footer { padding: 8px 4px 0 4px; }
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <h1>HealthCare AI</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <section id="home" class="section home-section">
+    <h2>Welcome to HealthCare AI</h2>
+    <p>Your virtual healthcare assistant, powered by AI.</p>
+    <button onclick="scrollToSection('features')">Explore Features</button>
+  </section>
+
+  <section id="features" class="section">
+    <h2>Features</h2>
+    <ul class="features-list">
+      <li onmouseover="highlight(this)" onmouseout="unhighlight(this)">Symptom Checker</li>
+      <li onmouseover="highlight(this)" onmouseout="unhighlight(this)">24/7 Support</li>
+      <li onmouseover="highlight(this)" onmouseout="unhighlight(this)">Mental Health Tips</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 HealthCare AI</p>
+  </footer>
+
+  <!-- Animated background bubbles -->
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+  <div class="bubble b4"></div>
+  <div class="bubble b5"></div>
+  <script src="script.js"></script>
+  <script>
+  // Floating chat widget open/close logic
+  const openBtn = document.getElementById('open-chat');
+  const closeBtn = document.getElementById('close-chat');
+  const chatbotContainer = document.getElementById('chatbot-container');
+  if (openBtn && closeBtn && chatbotContainer) {
+    openBtn.onclick = () => {
+      chatbotContainer.classList.remove('closed');
+      openBtn.style.display = 'none';
+    };
+    closeBtn.onclick = () => {
+      chatbotContainer.classList.add('closed');
+      openBtn.style.display = 'flex';
+    };
+    // Start closed by default
+    chatbotContainer.classList.add('closed');
+    openBtn.style.display = 'flex';
+  }
+  </script>
+
+  <!-- Embed your AI Agent from Relay.app below -->
+  <script src="https://embed.relay.app/relay.js" data-agent-id="your-agent-id"></script>
+  
+</body>
+</html>
